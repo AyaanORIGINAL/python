@@ -2,7 +2,11 @@ valid = False
 
 while not valid:
     try:
-        n = int(input("enter a number: "))
+        user_input = input("Enter a number or enter q to leave: ")
+        if user_input.lower() == "q":
+            print("Goodbye")
+            break
+        n = int(user_input)
         if n >100 :
             print("bye")
             raise TypeError
