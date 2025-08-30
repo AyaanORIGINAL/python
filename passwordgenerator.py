@@ -2,11 +2,11 @@ import random
 
 length = int(input("Enter password length: "))
 
-letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 password = ""
 for i in range(length):
-    password += random.choice(letters)
+    password += random.choice(characters)
 
 print("Generated Password:", password)
 
