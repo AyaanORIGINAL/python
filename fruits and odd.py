@@ -1,0 +1,1 @@
+numlist = int(input("Enter a few numbers: "))
