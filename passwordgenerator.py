@@ -8,9 +8,7 @@ password = ""
 for i in range(length):
     password += random.choice(characters)
 
-print("Password:", password)
-
 if length < 8:
     print("Password should include at least 8 characters.")
 else:
-    print("Password:", password)
+    print("Generated password:", password)
