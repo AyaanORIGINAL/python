@@ -34,8 +34,8 @@ class Sprite(pygame.sprite.Sprite):
     def change_color(self):
         self.image.fill(random.choice([YELLOW, MAGENTA, ORANGE, WHITE]))
 def change_background_color():
-    global BG_COLOR
-    BG_COLOR = random.choice([BLUE, LIGHTBLUE, DARKBLUE])
+    global bg_color
+    bg_color = random.choice([BLUE, LIGHTBLUE, DARKBLUE])
 
 allsprites = pygame.sprite.Group()
 sp1 = Sprite(WHITE, 30, 20)
@@ -59,7 +59,7 @@ while running:
     screen.fill(bg_color)
     allsprites.draw(screen)
     
-    pygame.display.flip
+    pygame.display.flip()
     clock.tick(120)
         
 pygame.quit()
