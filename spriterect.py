@@ -6,7 +6,6 @@ pygame.init()
 BLUE = pygame.Color("blue")
 LIGHTBLUE = pygame.Color("lightblue")
 DARKBLUE = pygame.Color("darkblue")
-
 YELLOW = pygame.Color("yellow")
 MAGENTA = pygame.Color("magenta")
 ORANGE = pygame.Color("orange")
@@ -17,6 +16,9 @@ WIDTH, HEIGHT = 500, 400
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Controlled Sprite & Bouncing Sprite")
 
+CHANGE_COLOR_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(CHANGE_COLOR_EVENT, 2000)
+
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, color, width, height, is_player=False):
         super().__init__()
@@ -24,22 +26,19 @@ class Sprite(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.is_player = is_player
-        self.velocity = [random.choice([-2, 2]), random.choice([-2, 2])]
+        self.velocity = [random.choice([-3, 3]), random.choice([-3, 3])]
 
     def update(self):
         if not self.is_player:
             self.rect.move_ip(self.velocity)
             if self.rect.left <= 0 or self.rect.right >= WIDTH:
                 self.velocity[0] = -self.velocity[0]
-                self.change_color()
-                change_background_color()
             if self.rect.top <= 0 or self.rect.bottom >= HEIGHT:
                 self.velocity[1] = -self.velocity[1]
-                self.change_color()
-                change_background_color()
 
     def change_color(self):
-        self.image.fill(random.choice([YELLOW, MAGENTA, ORANGE, WHITE]))
+        new_color = random.choice([YELLOW, MAGENTA, ORANGE, WHITE])
+        self.image.fill(new_color)
 
 def change_background_color():
     global bg_color
@@ -48,8 +47,7 @@ def change_background_color():
 allsprites = pygame.sprite.Group()
 
 player = Sprite(RED, 40, 30, is_player=True)
-player.rect.x = 200
-player.rect.y = 200
+player.rect.center = (250, 200)
 
 bouncer = Sprite(WHITE, 30, 20)
 bouncer.rect.x = random.randint(0, WIDTH - 30)
@@ -57,17 +55,19 @@ bouncer.rect.y = random.randint(0, HEIGHT - 20)
 
 allsprites.add(player, bouncer)
 
-
 bg_color = BLUE
 clock = pygame.time.Clock()
 speed = 5
 running = True
 
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == CHANGE_COLOR_EVENT:
+            player.change_color()
+            bouncer.change_color()
+            change_background_color()
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
@@ -79,12 +79,8 @@ while running:
     if keys[pygame.K_DOWN]:
         player.rect.y += speed
 
-    
     player.rect.clamp_ip(screen.get_rect())
-
-    
     allsprites.update()
-
     screen.fill(bg_color)
     allsprites.draw(screen)
 
